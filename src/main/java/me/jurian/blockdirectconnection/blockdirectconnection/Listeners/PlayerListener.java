@@ -1,29 +1,28 @@
-package me.jurian.blockdirectconnection.blockdirectconnection.Listeners;
+package me.jurian.blockdirectconnection.blockdirectconnection;
 
-import java.io.File;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import me.jurian.blockdirectconnection.blockdirectconnection.bstats.Metrics;
 
-public class PlayerListener extends JavaPlugin implements Listener {
-    private static final String PREFIX = ChatColor.GRAY + "[" + ChatColor.YELLOW + "AntiDirectConnect" + ChatColor.GRAY + "] " + ChatColor.DARK_AQUA;
+public class Blockdirectconnection extends JavaPlugin implements Listener {
 
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(this, (Plugin)this);
-        File config = new File(getDataFolder(), "config.yml");
-        if (!config.exists())
-            saveDefaultConfig();
+        getServer().getPluginManager().registerEvents(this, this);
+        getConfig().options().copyDefaults(true);
+        saveDefaultConfig();
+        int pluginId = 13869;
+        Metrics metrics = new Metrics(this, pluginId);
+        System.out.println("BlockDirectConnection is now succesfully enabled!");
     }
 
     public void onDisable() {}
+        @EventHandler
+        public void onConnect(PlayerLoginEvent event) {
+            if (getConfig().getStringList("allowed").contains(event.getAddress().getHostAddress().toLowerCase()))
+                return;
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, getConfig().getString("PlayerKickMessage"));
 
-    @EventHandler
-    public void onConnect(PlayerLoginEvent event) {
-        if (getConfig().getStringList("allowed").contains(event.getAddress().getHostAddress().toLowerCase()))
-            return;
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, getConfig().getString("settings.PlayerKickMessage").replaceAll("&",""));
-    }
+            ;}
 }
