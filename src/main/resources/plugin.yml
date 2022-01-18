@@ -1,6 +1,6 @@
 name: Blockdirectconnection
 version: '${project.version}'
 main: me.jurian.blockdirectconnection.blockdirectconnection.Blockdirectconnection
-api-version: 1.6
+api-version: 1.14
 authors: [ Jurian ]
 description: A plugin which blocks direct connection
