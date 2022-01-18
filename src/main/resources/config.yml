@@ -2,5 +2,5 @@ allowed:
 #Below you must insert your proxy ip, do not insert the port!!!
 #Add as much as you want.
 - x.x.x.x
-#Here you can set the message that someone will het if it connects directly to your servers.
-PlayerKickMessage: [BlockDirectConnection] Connecting to this server without the proxy is not allowed.
+#Here you can set the message that someone will get if he/she connects directly to your servers.
+PlayerKickMessage: Connecting to this server without the proxy is not allowed.
