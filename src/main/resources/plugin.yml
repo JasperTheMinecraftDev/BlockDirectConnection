@@ -1,5 +1,5 @@
 name: Blockdirectconnection
-version: '${project.version}'
+version: '1.1'
 main: me.jurian.blockdirectconnection.blockdirectconnection.Blockdirectconnection
 api-version: 1.14
 authors: [ Jurian ]
