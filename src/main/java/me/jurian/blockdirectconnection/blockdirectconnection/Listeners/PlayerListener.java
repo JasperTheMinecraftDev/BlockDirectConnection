@@ -1,28 +1,29 @@
-package me.jurian.blockdirectconnection.blockdirectconnection;
+package me.jurian.blockdirectconnection.blockdirectconnection.Listeners;
 
+import java.io.File;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.jurian.blockdirectconnection.blockdirectconnection.bstats.Metrics;
 
-public class Blockdirectconnection extends JavaPlugin implements Listener {
+public class PlayerListener extends JavaPlugin implements Listener {
+    private static final String PREFIX = ChatColor.GRAY + "[" + ChatColor.YELLOW + "BlockDirectConnection" + ChatColor.GRAY + "] " + ChatColor.DARK_AQUA;
 
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(this, this);
-        getConfig().options().copyDefaults(true);
-        saveDefaultConfig();
-        int pluginId = 13869;
-        Metrics metrics = new Metrics(this, pluginId);
-        System.out.println("BlockDirectConnection is now succesfully enabled!");
+        getServer().getPluginManager().registerEvents(this, (Plugin)this);
+        File config = new File(getDataFolder(), "config.yml");
+        if (!config.exists())
+            saveDefaultConfig();
     }
 
     public void onDisable() {}
-        @EventHandler
-        public void onConnect(PlayerLoginEvent event) {
-            if (getConfig().getStringList("allowed").contains(event.getAddress().getHostAddress().toLowerCase()))
-                return;
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, getConfig().getString("PlayerKickMessage"));
 
-            ;}
+    @EventHandler
+    public void onConnect(PlayerLoginEvent event) {
+        if (getConfig().getStringList("allowed").contains(event.getAddress().getHostAddress().toLowerCase()))
+            return;
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, getConfig().getString("PlayerKickMessage").replaceAll("&",""));
+    }
 }
